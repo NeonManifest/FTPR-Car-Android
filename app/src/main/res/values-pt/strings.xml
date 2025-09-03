@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MyApiTest - Bernardo Alves Villarinho Lima</string>
+    <string name="phone_login">Faça login com o celular</string>
+    <string name="hint_celular">Digite seu celular</string>
+    <string name="send_otp">Enviar código</string>
+    <string name="enter_otp">Digite o código</string>
+    <string name="verify_otp">Verificar código</string>
+</resources>

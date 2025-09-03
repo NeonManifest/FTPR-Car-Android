@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">MyApiTest - COLOQUE O SEU NOME AQUI</string>
+    <string name="app_name">MyApiTest - Bernardo Alves Villarinho Lima</string>
+    <string name="phone_login">Sign in with your phone</string>
+    <string name="hint_celular">Enter phone number</string>
+    <string name="send_otp">Send OTP</string>
+    <string name="enter_otp">Enter OTP</string>
+    <string name="verify_otp">Verify OTP</string>
 </resources>

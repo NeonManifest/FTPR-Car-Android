@@ -2,6 +2,7 @@ plugins {
     id 'kotlin-kapt'
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -38,7 +39,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.4.3'
+        kotlinCompilerExtensionVersion '1.5.11'
     }
     packaging {
         resources {
@@ -46,6 +47,7 @@ android {
         }
     }
     buildFeatures {
+        compose false
         dataBinding true // Habilita o Data Binding
     }
     viewBinding {
@@ -54,7 +56,9 @@ android {
 }
 
 kapt {
-
+    javacOptions {
+        option("-target", "17")
+    }
     // Define o diretório onde o Room exportará o esquema do banco de dados
     arguments {
         arg("room.schemaLocation", "$projectDir/schemas")
@@ -99,4 +103,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation platform('androidx.compose:compose-bom:2023.03.00')
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
+
+    implementation(platform("com.google.firebase:firebase-bom:34.2.0"))
+    implementation("com.google.firebase:firebase-auth")
 }

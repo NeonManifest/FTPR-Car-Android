@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "611265839691",
+    "project_id": "carrinhos-df3ab",
+    "storage_bucket": "carrinhos-df3ab.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:611265839691:android:cff2fe6699878fca3c03ce",
+        "android_client_info": {
+          "package_name": "com.example.myapitest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAG_1x41im7bUkQCUDtEwgo-WC0ExFvp98"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
