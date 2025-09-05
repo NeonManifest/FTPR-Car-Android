@@ -29,22 +29,22 @@ class Login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        // Initialize Firebase Auth
+        // Instanciar o firebase auth
         auth = FirebaseAuth.getInstance()
 
-        // Initialize views
+        // Inicializar as views
         phoneNumberEditText = findViewById(R.id.phone_number_edittext)
         sendOtpButton = findViewById(R.id.send_otp_button)
         verificationCodeEditText = findViewById(R.id.verification_code_edittext)
         verifyButton = findViewById(R.id.verify_button)
 
-        // Set up click listeners
+        // Set up dos ouvintes
         sendOtpButton.setOnClickListener {
             val phoneNumber = phoneNumberEditText.text.toString().trim()
             if (phoneNumber.isNotEmpty()) {
                 sendVerificationCode(phoneNumber)
             } else {
-                Toast.makeText(this, "Please enter phone number", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.please_phone, Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -53,26 +53,27 @@ class Login : AppCompatActivity() {
             if (code.isNotEmpty() && storedVerificationId != null) {
                 verifyVerificationCode(code)
             } else {
-                Toast.makeText(this, "Please enter verification code", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.please_otp, Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Check if user is already logged in
+        // Verificar se o usuário já está logado
         checkCurrentUser()
     }
 
     private fun checkCurrentUser() {
+        // Usar o auth para ver se já tem o usuário logado
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            // User is already logged in, redirect to main activity
+            // Direcionar o usuário à atividade principal caso ele já esteja logado
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
     }
 
     private fun sendVerificationCode(phoneNumber: String) {
-        // Format phone number with country code if needed
-        val formattedPhoneNumber = if (phoneNumber.startsWith("+")) phoneNumber else "+91$phoneNumber"
+        // Formatar número de telefone se necessário, adicionando +55 se já não tiver
+        val formattedPhoneNumber = if (phoneNumber.startsWith("+")) phoneNumber else "+55$phoneNumber"
 
         val options = PhoneAuthOptions.newBuilder(auth)
             .setPhoneNumber(formattedPhoneNumber)
@@ -80,13 +81,11 @@ class Login : AppCompatActivity() {
             .setActivity(this)
             .setCallbacks(object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                 override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                    // Auto verification (sometimes happens instantly)
                     signInWithPhoneAuthCredential(credential)
                 }
 
                 override fun onVerificationFailed(e: FirebaseException) {
-                    Toast.makeText(this@Login, "Verification failed: ${e.message}", Toast.LENGTH_SHORT).show()
-                    Log.e("LoginActivity", "Verification failed", e)
+                    Toast.makeText(this@Login, getString(R.string.verification_failed, e.message), Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onCodeSent(
@@ -95,7 +94,7 @@ class Login : AppCompatActivity() {
                 ) {
                     storedVerificationId = verificationId
                     resendToken = token
-                    Toast.makeText(this@Login, "OTP sent successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@Login, R.string.otp_success, Toast.LENGTH_SHORT).show()
 
                     // Enable verify button and code field
                     verificationCodeEditText.isEnabled = true
@@ -118,17 +117,11 @@ class Login : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Sign in success
-                    val user = task.result?.user
-                    Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
-
-                    // Navigate to main activity
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 } else {
                     // Sign in failed
-                    Toast.makeText(this, "Authentication failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
-                    Log.e("LoginActivity", "Authentication failed", task.exception)
+                    Toast.makeText(this, getString(R.string.auth_failed, task.exception?.message), Toast.LENGTH_SHORT).show()
                 }
             }
     }

@@ -5,4 +5,10 @@
     <string name="send_otp">Send OTP</string>
     <string name="enter_otp">Enter OTP</string>
     <string name="verify_otp">Verify OTP</string>
+    <string name="logout">Sign out</string>
+    <string name="otp_success">OTP sent successfully</string>
+    <string name="please_phone">Please enter a phone number</string>
+    <string name="please_otp">Please enter OTP</string>
+    <string name="verification_failed">Verification failed: %1$s</string>
+    <string name="auth_failed">Authentication failed: %1$s</string>
 </resources>

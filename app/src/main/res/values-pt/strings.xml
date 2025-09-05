@@ -6,4 +6,10 @@
     <string name="send_otp">Enviar código</string>
     <string name="enter_otp">Digite o código</string>
     <string name="verify_otp">Verificar código</string>
+    <string name="logout">Sair</string>
+    <string name="otp_success">Código enviado com sucesso</string>
+    <string name="please_phone">Digite um número de celular</string>
+    <string name="please_otp">Digite o código de verificação</string>
+    <string name="verification_failed">A verificação falhou: %1$s</string>
+    <string name="auth_failed">Autenticação falhou: %1$s</string>
 </resources>
