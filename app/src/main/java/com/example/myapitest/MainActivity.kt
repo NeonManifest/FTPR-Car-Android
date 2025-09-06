@@ -4,17 +4,27 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.myapitest.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: ActivityMainBinding
     private val viewModel: CarViewModel by viewModels()
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: CarAdapter
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,9 +32,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         requestLocationPermission()
         auth = FirebaseAuth.getInstance()
+        recyclerView = findViewById(R.id.recyclerView)
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
         setupActionBar()
-        fetchItems()
+        setupSwipeRefresh()
         setupView()
+        observeViewModel()
+        fetchItems()
 
 
         // 1- Criar tela de Login com algum provedor do Firebase (Telefone, Google)
@@ -78,7 +92,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupView() {
-
+        adapter = CarAdapter()
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapter
     }
 
     private fun requestLocationPermission() {
@@ -88,4 +104,26 @@ class MainActivity : AppCompatActivity() {
     private fun fetchItems() {
         viewModel.fetchCars()
     }
+
+    private fun observeViewModel() {
+        viewModel.cars.observe(this) { cars ->
+            cars?.let {
+                adapter.submitList(it)
+            }
+        }
+
+        viewModel.error.observe(this) { errorMessage ->
+            errorMessage?.let {
+                Toast.makeText(this@MainActivity, it, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun setupSwipeRefresh(){
+        swipeRefreshLayout.setOnRefreshListener {
+            fetchItems()
+            swipeRefreshLayout.isRefreshing = false
+        }
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.example.myapitest
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,10 +22,6 @@ class CarViewModel: ViewModel() {
                     onSuccess = { cars.value = it },
                     onFailure = { error.value = it.message }
                 )
-                // Print the cars to logcat
-                cars.value?.forEach { car ->
-                    println("Car: $car")
-                }
                 loading.value = false
             } catch (e: Exception) {
                 error.value = e.message
