@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 
-class CarAdapter : ListAdapter<Carro, CarAdapter.ViewHolder>(CarDiffCallback()) {
+class CarAdapter (private val onItemClick: (Carro) -> Unit) : ListAdapter<Carro, CarAdapter.ViewHolder>(CarDiffCallback()) {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.image)
@@ -30,6 +30,9 @@ class CarAdapter : ListAdapter<Carro, CarAdapter.ViewHolder>(CarDiffCallback()) 
         holder.yearTextView.text = car.year.toString()
         holder.licenseTextView.text = car.licence
         Picasso.get().load(car.imageUrl).into(holder.imageView)
+        holder.itemView.setOnClickListener {
+            onItemClick(car)
+        }
     }
 
     private class CarDiffCallback : DiffUtil.ItemCallback<Carro>() {

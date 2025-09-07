@@ -32,8 +32,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         requestLocationPermission()
         auth = FirebaseAuth.getInstance()
-        recyclerView = findViewById(R.id.recyclerView)
-        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
+        recyclerView = binding.recyclerView
+        swipeRefreshLayout = binding.swipeRefreshLayout
         setupActionBar()
         setupSwipeRefresh()
         setupView()
@@ -92,7 +92,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupView() {
-        adapter = CarAdapter()
+        adapter = CarAdapter { car ->
+            val intent = Intent(this, CarDetails::class.java).apply {
+                putExtra("CAR_ID", car.id)
+                putExtra("CAR_IMAGE_URL", car.imageUrl)
+                putExtra("CAR_YEAR", car.year)
+                putExtra("CAR_NAME", car.name)
+                putExtra("CAR_LICENCE", car.licence)
+                putExtra("CAR_LAT", car.place.getLat())
+                putExtra("CAR_LONG", car.place.getLong())
+            }
+            startActivity(intent)
+        }
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
     }
