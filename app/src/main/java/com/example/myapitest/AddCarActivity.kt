@@ -212,7 +212,7 @@ class AddCarActivity : AppCompatActivity(), OnMapReadyCallback {
             binding.btnSubmit.isEnabled = true
             setResult(Activity.RESULT_OK)
             finish()
-        }, 2000)
+        }, 1000)
     }
 
     private fun enableUserLocation() {

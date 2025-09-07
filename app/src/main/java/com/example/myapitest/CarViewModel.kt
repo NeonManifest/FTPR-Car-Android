@@ -45,4 +45,37 @@ class CarViewModel: ViewModel() {
         }
     }
 
+    fun deleteCar(id: String) {
+        loading.value = true
+        viewModelScope.launch {
+            try {
+                val result = repository.deleteCar(id)
+                result.fold(
+                    onSuccess = { cars.value = cars.value?.minus(cars.value?.find { it.id == id }!!) },
+                    onFailure = { error.value = it.message }
+                )
+            } catch (e: Exception) {
+                loading.value = false
+            }
+
+        }
+    }
+
+    fun updateCar(id: String, car: Carro) {
+        loading.value = true
+        viewModelScope.launch {
+            try {
+                val result = repository.updateCar(id, car)
+                result.fold(
+                    onSuccess = { carro ->
+                        cars.value = cars.value?.minus(cars.value?.find { it.id == id }!!)
+                        cars.value = cars.value?.plus(carro) },
+                    onFailure = { error.value = it.message }
+                )
+            } catch (e: Exception) {
+                loading.value = false
+            }
+        }
+    }
+
 }
