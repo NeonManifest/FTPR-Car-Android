@@ -7,15 +7,11 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.myapitest.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,10 +26,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        requestLocationPermission()
         auth = FirebaseAuth.getInstance()
         recyclerView = binding.recyclerView
         swipeRefreshLayout = binding.swipeRefreshLayout
+        binding.fabAddCar.setOnClickListener {
+            val intent = Intent(this, AddCarActivity::class.java)
+            startActivity(intent)
+        }
         setupActionBar()
         setupSwipeRefresh()
         setupView()
@@ -106,10 +105,6 @@ class MainActivity : AppCompatActivity() {
         }
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
-    }
-
-    private fun requestLocationPermission() {
-        // TODO
     }
 
     private fun fetchItems() {

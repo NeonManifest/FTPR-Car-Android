@@ -29,4 +29,20 @@ class CarViewModel: ViewModel() {
         }
     }
 
+    fun createCar(car: Carro) {
+        loading.value = true
+        viewModelScope.launch {
+            try {
+                val result = repository.createCar(car)
+                result.fold(
+                    onSuccess = { cars.value = cars.value?.plus(it) },
+                    onFailure = { error.value = it.message }
+                )
+            } catch (e: Exception) {
+                loading.value = false
+            }
+
+        }
+    }
+
 }
