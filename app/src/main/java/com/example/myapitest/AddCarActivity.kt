@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -43,7 +42,7 @@ class AddCarActivity : AppCompatActivity(), OnMapReadyCallback {
             if (granted) {
                 enableUserLocation()
             } else {
-                Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.location_permission_denied), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -90,8 +89,8 @@ class AddCarActivity : AppCompatActivity(), OnMapReadyCallback {
         googleMap.setOnMapClickListener { latLng ->
             selectedLocation = latLng
             googleMap.clear()
-            googleMap.addMarker(MarkerOptions().position(latLng).title("Selected Location"))
-            binding.textViewLocation.text = "Lat: ${latLng.latitude}, Lng: ${latLng.longitude}"
+            googleMap.addMarker(MarkerOptions().position(latLng).title(getString(R.string.title_selected_location)))
+            binding.textViewLocation.text = getString(R.string.location_text, latLng.latitude, latLng.longitude)
         }
     }
 
@@ -122,27 +121,27 @@ class AddCarActivity : AppCompatActivity(), OnMapReadyCallback {
         val licence = binding.editTextLicence.text.toString().trim()
 
         if (selectedImageUri == null) {
-            Toast.makeText(this, "Please select an image", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.please_image, Toast.LENGTH_SHORT).show()
             return false
         }
 
         if (name.isEmpty()) {
-            binding.editTextName.error = "Car name is required"
+            binding.editTextName.error = getString(R.string.please_car)
             return false
         }
 
         if (year.isEmpty() || year.length != 4 || year.toIntOrNull() !in 1900..2100) {
-            binding.editTextYear.error = "Please enter a valid year (1900-2100)"
+            binding.editTextYear.error = getString(R.string.please_year)
             return false
         }
 
         if (licence.isEmpty()) {
-            binding.editTextLicence.error = "Licence plate is required"
+            binding.editTextLicence.error = getString(R.string.please_licence)
             return false
         }
 
         if (selectedLocation == null) {
-            Toast.makeText(this, "Please select a location on the map", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.please_location), Toast.LENGTH_SHORT).show()
             return false
         }
 
@@ -174,11 +173,11 @@ class AddCarActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                     .addOnFailureListener { e ->
                         binding.btnSubmit.isEnabled = true
-                        Toast.makeText(this, "Image upload failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.upload_failed,e.message), Toast.LENGTH_SHORT).show()
                     }
             } else {
                 binding.btnSubmit.isEnabled = true
-                Toast.makeText(this, "Failed to read image", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.image_failed), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -203,7 +202,7 @@ class AddCarActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun saveCarToApi(car: Carro) {
         viewModel.createCar(car)
-        Toast.makeText(this, "Car added successfully!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.car_added), Toast.LENGTH_SHORT).show()
         setResult(Activity.RESULT_OK)
         finish()
     }
@@ -235,14 +234,14 @@ class AddCarActivity : AppCompatActivity(), OnMapReadyCallback {
                 googleMap.addMarker(
                     MarkerOptions()
                         .position(userLatLng)
-                        .title("Your Location")
+                        .title(getString(R.string.your_location))
                 )
 
                 // Move the camera to user's location with zoom
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 15f))
 
                 // Update UI (optional)
-                binding.textViewLocation.text = "Lat: ${it.latitude}, Lng: ${it.longitude}"
+                binding.textViewLocation.text = getString(R.string.location_text, it.latitude, it.longitude)
             }
         }
     }

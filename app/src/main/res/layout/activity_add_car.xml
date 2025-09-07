@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_add_photo"
-            android:contentDescription="Car image"
+            android:contentDescription="@string/car_picture"
             android:layout_marginBottom="16dp" />
 
         <Button
@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Select Image"
+            android:text="@string/select_image"
             android:layout_marginBottom="24dp" />
 
         <!-- Car Name -->
@@ -42,7 +42,7 @@
                 android:id="@+id/editTextName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Car Name"
+                android:hint="@string/car_name"
                 android:inputType="textCapWords" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -57,7 +57,7 @@
                 android:id="@+id/editTextYear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Year"
+                android:hint="@string/year"
                 android:inputType="number"
                 android:maxLength="4" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -73,7 +73,7 @@
                 android:id="@+id/editTextLicence"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Licence Plate"
+                android:hint="@string/licence_plate"
                 android:inputType="textCapCharacters" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -81,7 +81,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Location:"
+            android:text="@string/location"
             android:textSize="16sp"
             android:textStyle="bold"
             android:layout_marginBottom="4dp" />
@@ -97,7 +97,7 @@
             android:id="@+id/textViewLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tap on map to select location"
+            android:text="@string/tap_on_map_to_select_location"
             android:textAlignment="center"
             android:layout_marginBottom="4dp" />
 
@@ -106,7 +106,7 @@
             android:id="@+id/btnSubmit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add Car"
+            android:text="@string/add_car"
             android:textAllCaps="false" />
 
     </LinearLayout>

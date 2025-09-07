@@ -48,7 +48,7 @@ class CarDetails : AppCompatActivity(), OnMapReadyCallback {
                     carName.text = car.name
                     carYear.text = car.year
                     carLicense.text = car.licence
-                    carPlace.text = "Lat: ${car.place.getLat()}, Lng: ${car.place.getLong()}"
+                    carPlace.text = getString(R.string.location_text, car.place.getLat(), car.place.getLong())
                     Picasso.get()
                         .load(car.imageUrl)
                         .placeholder(R.drawable.ic_add_photo)
@@ -116,15 +116,15 @@ class CarDetails : AppCompatActivity(), OnMapReadyCallback {
             }
             R.id.action_delete_button -> {
                 com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
-                    .setTitle("Delete Car")
-                    .setMessage("Are you sure you want to delete ${car.name}?")
-                    .setPositiveButton("Yes") { dialog, _ ->
+                    .setTitle(getString(R.string.delete_car))
+                    .setMessage(getString(R.string.are_you_sure_delete_car, car.name))
+                    .setPositiveButton(getString(R.string.yes)) { dialog, _ ->
                         viewModel.deleteCar(car.id)
                         Toast.makeText(this, "${car.name} deleted", Toast.LENGTH_SHORT).show()
                         finish()
                         dialog.dismiss()
                     }
-                    .setNegativeButton("No") { dialog, _ ->
+                    .setNegativeButton(getString(R.string.no)) { dialog, _ ->
                         dialog.dismiss()
                     }
                     .show()
@@ -139,7 +139,7 @@ class CarDetails : AppCompatActivity(), OnMapReadyCallback {
         binding.carName.text = car.name
         binding.carYear.text = car.year
         binding.carLicense.text = car.licence
-        binding.carPlace.text = "${car.place.getLat()}, ${car.place.getLong()}"
+        binding.carPlace.text = getString(R.string.location_text, car.place.getLat(), car.place.getLong())
         binding.carImage.contentDescription = car.name
         binding.carImage.scaleType = ImageView.ScaleType.CENTER_CROP
         binding.carImage.adjustViewBounds = true
@@ -147,7 +147,7 @@ class CarDetails : AppCompatActivity(), OnMapReadyCallback {
         binding.carImage.maxWidth = 200
 
         // Load image
-        if (!car.imageUrl.isNullOrEmpty()) {
+        if (car.imageUrl.isNotEmpty()) {
             Picasso.get()
                 .load(car.imageUrl)
                 .into(binding.carImage)
@@ -157,10 +157,9 @@ class CarDetails : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(map: GoogleMap) {
         this.map = map
 
-        // Example location (São Paulo)
         val carLocation = LatLng(car.place.getLat(), car.place.getLong())
         this.map.apply {
-            addMarker(MarkerOptions().position(carLocation).title("Car Location"))
+            addMarker(MarkerOptions().position(carLocation).title(getString(R.string.car_location)))
             moveCamera(CameraUpdateFactory.newLatLngZoom(carLocation, 14f))
         }
     }
