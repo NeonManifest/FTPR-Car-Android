@@ -150,7 +150,6 @@ class AddCarActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun uploadImageAndSaveCar() {
-        binding.progressBar.visibility = View.VISIBLE
         binding.btnSubmit.isEnabled = false
 
         val imageRef = storageReference.child("car_images/${UUID.randomUUID()}.jpg")
@@ -174,12 +173,10 @@ class AddCarActivity : AppCompatActivity(), OnMapReadyCallback {
                         }
                     }
                     .addOnFailureListener { e ->
-                        binding.progressBar.visibility = View.GONE
                         binding.btnSubmit.isEnabled = true
                         Toast.makeText(this, "Image upload failed: ${e.message}", Toast.LENGTH_SHORT).show()
                     }
             } else {
-                binding.progressBar.visibility = View.GONE
                 binding.btnSubmit.isEnabled = true
                 Toast.makeText(this, "Failed to read image", Toast.LENGTH_SHORT).show()
             }
@@ -207,12 +204,8 @@ class AddCarActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun saveCarToApi(car: Carro) {
         viewModel.createCar(car)
         Toast.makeText(this, "Car added successfully!", Toast.LENGTH_SHORT).show()
-        binding.progressBar.postDelayed({
-            binding.progressBar.visibility = View.GONE
-            binding.btnSubmit.isEnabled = true
-            setResult(Activity.RESULT_OK)
-            finish()
-        }, 1000)
+        setResult(Activity.RESULT_OK)
+        finish()
     }
 
     private fun enableUserLocation() {

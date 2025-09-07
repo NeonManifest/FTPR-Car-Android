@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -153,7 +152,6 @@ class EditCarActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun uploadImageAndUpdateCar() {
-        binding.progressBar.visibility = View.VISIBLE
         binding.btnSubmit.isEnabled = false
 
         if (selectedImageUri != null) {
@@ -173,7 +171,6 @@ class EditCarActivity : AppCompatActivity(), OnMapReadyCallback {
                         }
                     }
                     .addOnFailureListener { e ->
-                        binding.progressBar.visibility = View.GONE
                         binding.btnSubmit.isEnabled = true
                         Toast.makeText(this, "Image upload failed: ${e.message}", Toast.LENGTH_SHORT).show()
                     }
@@ -196,12 +193,7 @@ class EditCarActivity : AppCompatActivity(), OnMapReadyCallback {
 
         viewModel.updateCar(currentCar.id, updatedCar)
         Toast.makeText(this, "Car updated successfully!", Toast.LENGTH_SHORT).show()
-
-        binding.progressBar.postDelayed({
-            binding.progressBar.visibility = View.GONE
-            binding.btnSubmit.isEnabled = true
-            finishWithResult(updatedCar)
-        }, 1500)
+        finishWithResult(updatedCar)
     }
 
     private fun finishWithResult(updatedCar: Carro) {

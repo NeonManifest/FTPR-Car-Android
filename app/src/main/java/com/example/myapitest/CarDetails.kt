@@ -115,7 +115,7 @@ class CarDetails : AppCompatActivity(), OnMapReadyCallback {
                 true
             }
             R.id.action_delete_button -> {
-                androidx.appcompat.app.AlertDialog.Builder(this)
+                com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
                     .setTitle("Delete Car")
                     .setMessage("Are you sure you want to delete ${car.name}?")
                     .setPositiveButton("Yes") { dialog, _ ->
@@ -127,7 +127,6 @@ class CarDetails : AppCompatActivity(), OnMapReadyCallback {
                     .setNegativeButton("No") { dialog, _ ->
                         dialog.dismiss()
                     }
-                    .create()
                     .show()
 
                 true
